@@ -79,7 +79,16 @@ class Blockchain {
                 self.chain.push(block);
                 self.height += 1;
 
-                resolve(block);
+                const chainValidationErrors = await self.validateChain();
+
+                if (chainValidationErrors && chainValidationErrors.length > 0) {
+                    self.chain.pop();
+                    self.height -= 1;
+
+                    reject(chainValidationErrors);
+                } else {
+                    resolve(block);
+                }
             } catch (error) {
                 reject(error);
             }
@@ -227,7 +236,6 @@ class Blockchain {
             resolve(errorLog);
         });
     }
-
 }
 
 module.exports.Blockchain = Blockchain;   

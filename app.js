@@ -9,6 +9,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const debug = require("debug")("app");
 /**
  * Require the Blockchain class. This allow us to have only one instance of the class.
  */
@@ -48,7 +49,7 @@ class ApplicationServer {
 	start() {
 		let self = this;
 		this.app.listen(this.app.get("port"), () => {
-			console.log(`Server Listening for port: ${self.app.get("port")}`);
+			debug(`Server Listening for port: ${self.app.get("port")}`);
 		});
 	}
 
